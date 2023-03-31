@@ -125,11 +125,13 @@ public class ProcessCheck {
             ProcessBuilder processBuilderKill = new ProcessBuilder("bash", "-c", "kill " + pidOf(processName));
             Process processKill = processBuilderKill.start();
             processKill.waitFor();
+            processKill.destroy();
             Thread.sleep(500);
             }
             ProcessBuilder processBuilderStart = new ProcessBuilder("bash", "-c", "make " + processName + "Start");
             Process processStart = processBuilderStart.start();
             processStart.waitFor();
+            processStart.destroy();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,6 +161,7 @@ public class ProcessCheck {
             Process process = processBuilder.start();
             byte[] bashOutput = process.getInputStream().readAllBytes();
             process.waitFor();
+            process.destroy();
             return new String(bashOutput, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
